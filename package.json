@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "license": "BSD-2",
   "scripts": {
-    "start": "next",
+    "dev": "next",
     "build": "next build",
-    "serve": "NODE_ENV=production next start"
+    "start": "NODE_ENV=production next start"
   },
   "dependencies": {
     "next": "^9.3.1",
