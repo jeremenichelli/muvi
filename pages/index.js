@@ -4,7 +4,7 @@ import Link from 'next/link'
 import unfetch from 'isomorphic-unfetch'
 
 const Index = (props) => {
-  const { prevPage, nextPage, currentSearch } = props
+  const { prevPage, nextPage, currentSearch, error } = props
   const [searchQuery, setSearchQuery] = useState('')
 
   const onSubmit = (evt) => {
@@ -29,6 +29,7 @@ const Index = (props) => {
           />
           <button type="submit">Search</button>
         </form>
+        {error && <p>{error}</p>}
         {hasResults && (
           <ul>
             {props.pageResults.map((result) => (
@@ -73,6 +74,10 @@ Index.getInitialProps = async (context) => {
 
   const response = await unfetch(searchUrl)
   const results = await response.json()
+
+  if (results.Error) {
+    return { error: `No results found for ${query.search}` }
+  }
 
   const pageResults = results.Search.map((item) => ({
     id: item.imdbID,
