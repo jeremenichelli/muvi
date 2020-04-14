@@ -1,11 +1,18 @@
+require('dotenv').config()
+
 module.exports = {
-  experimental: {
-    modern: true,
-    polyfillsOptimization: true
+  env: {
+    API_KEY: process.env.API_KEY
   },
+
+  // experimental: {
+  //   modern: true,
+  //   polyfillsOptimization: true
+  // },
 
   webpack(config) {
     const splitChunks = config.optimization && config.optimization.splitChunks
+
     if (splitChunks) {
       const cacheGroups = splitChunks.cacheGroups
       const preactModules = /[\\/]node_modules[\\/](preact|preact-render-to-string|preact-context-provider)[\\/]/
