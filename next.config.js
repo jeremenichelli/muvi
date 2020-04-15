@@ -5,10 +5,10 @@ module.exports = {
     API_KEY: process.env.API_KEY
   },
 
-  // experimental: {
-  //   modern: true,
-  //   polyfillsOptimization: true
-  // },
+  experimental: {
+    modern: true,
+    polyfillsOptimization: true
+  },
 
   webpack(config) {
     const splitChunks = config.optimization && config.optimization.splitChunks

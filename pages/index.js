@@ -3,7 +3,6 @@ import unfetch from 'isomorphic-unfetch'
 import Router from 'next/router'
 import Link from 'next/link'
 import Head from 'next/head'
-import AppTitle from '../components/app-title/app-title'
 import GridMain from '../components/grid/grid-main'
 import GridAside from '../components/grid/grid-aside'
 
