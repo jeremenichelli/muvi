@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
+import unfetch from 'isomorphic-unfetch'
 import Router from 'next/router'
 import Link from 'next/link'
 import Head from 'next/head'
-import unfetch from 'isomorphic-unfetch'
+import AppTitle from '../components/app-title/app-title'
+import GridMain from '../components/grid/grid-main'
+import GridAside from '../components/grid/grid-aside'
 
 const Index = (props) => {
   const { prevPage, nextPage, currentSearch, error } = props
@@ -19,12 +22,11 @@ const Index = (props) => {
   const hasResults = props.pageResults && props.pageResults.length
 
   return (
-    <main>
+    <>
       <Head>
         <title>muvi</title>
       </Head>
-      <h1>muvi</h1>
-      <div>
+      <GridAside>
         <form action="?" onSubmit={onSubmit}>
           <input
             name="search"
@@ -33,6 +35,18 @@ const Index = (props) => {
           />
           <button type="submit">Search</button>
         </form>
+        {prevPage && (
+          <Link
+            href={`/?search=${currentSearch}&page=${prevPage}`}
+          >{`${prevPage}`}</Link>
+        )}
+        {nextPage && (
+          <Link
+            href={`/?search=${currentSearch}&page=${nextPage}`}
+          >{`${nextPage}`}</Link>
+        )}
+      </GridAside>
+      <GridMain>
         {error && <p>{error}</p>}
         {hasResults && (
           <ul>
@@ -49,18 +63,8 @@ const Index = (props) => {
             ))}
           </ul>
         )}
-        {prevPage && (
-          <Link
-            href={`/?search=${currentSearch}&page=${prevPage}`}
-          >{`${prevPage}`}</Link>
-        )}
-        {nextPage && (
-          <Link
-            href={`/?search=${currentSearch}&page=${nextPage}`}
-          >{`${nextPage}`}</Link>
-        )}
-      </div>
-    </main>
+      </GridMain>
+    </>
   )
 }
 

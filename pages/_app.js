@@ -1,6 +1,9 @@
 import App from 'next/app'
 import React from 'react'
 import GlobalStyles from '../components/global-styles/global-styles'
+import Grid from '../components/grid/grid'
+import GridHeader from '../components/grid/grid-header'
+import AppTitle from '../components/app-title/app-title'
 
 export default class AppWithGlobalStyles extends App {
   render() {
@@ -9,7 +12,12 @@ export default class AppWithGlobalStyles extends App {
     return (
       <>
         <GlobalStyles />
-        <Component {...pageProps} />
+        <Grid>
+          <GridHeader>
+            <AppTitle>muvi</AppTitle>
+          </GridHeader>
+          <Component {...pageProps} />
+        </Grid>
       </>
     )
   }

@@ -1,6 +1,7 @@
 import React from 'react'
-import Head from 'next/head'
 import unfetch from 'isomorphic-unfetch'
+import Head from 'next/head'
+import GridMain from '../../components/grid/grid-main'
 
 const Movie = (props) => {
   const { data, error } = props
@@ -17,29 +18,31 @@ const Movie = (props) => {
   }
 
   return (
-    <main>
+    <>
       <Head>
         <title>{`muvi - ${data.title} (${data.year})`}</title>
       </Head>
-      <h1>{`${data.title} (${data.year})`}</h1>
-      <p>{data.plot}</p>
-      <p>
-        <strong>Duration</strong> {data.duration}
-      </p>
-      <p>
-        <strong>Director</strong> {data.director}
-      </p>
-      <p>
-        <strong>Actors</strong> {data.actors}
-      </p>
-      <ul>
-        {data.ratings.map((rating, index) => (
-          <li key={index}>
-            <strong>{rating.source}</strong> {rating.value}
-          </li>
-        ))}
-      </ul>
-    </main>
+      <GridMain>
+        <h1>{`${data.title} (${data.year})`}</h1>
+        <p>{data.plot}</p>
+        <p>
+          <strong>Duration</strong> {data.duration}
+        </p>
+        <p>
+          <strong>Director</strong> {data.director}
+        </p>
+        <p>
+          <strong>Actors</strong> {data.actors}
+        </p>
+        <ul>
+          {data.ratings.map((rating, index) => (
+            <li key={index}>
+              <strong>{rating.source}</strong> {rating.value}
+            </li>
+          ))}
+        </ul>
+      </GridMain>
+    </>
   )
 }
 
