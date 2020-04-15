@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-import Router from 'next/router'
-import Link from 'next/link'
+import React from 'react'
+import Head from 'next/head'
 import unfetch from 'isomorphic-unfetch'
 
 const Movie = (props) => {
@@ -9,6 +8,9 @@ const Movie = (props) => {
   if (error && error === ERROR_NOT_FOUND) {
     return (
       <main>
+        <Head>
+          <title>muvi - Not Found</title>
+        </Head>
         <h1>Movie not found</h1>
       </main>
     )
@@ -16,6 +18,9 @@ const Movie = (props) => {
 
   return (
     <main>
+      <Head>
+        <title>{`muvi - ${data.title} (${data.year})`}</title>
+      </Head>
       <h1>{`${data.title} (${data.year})`}</h1>
       <p>{data.plot}</p>
       <p>

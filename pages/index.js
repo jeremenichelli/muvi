@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Router from 'next/router'
 import Link from 'next/link'
+import Head from 'next/head'
 import unfetch from 'isomorphic-unfetch'
 
 const Index = (props) => {
@@ -19,6 +20,9 @@ const Index = (props) => {
 
   return (
     <main>
+      <Head>
+        <title>muvi</title>
+      </Head>
       <h1>muvi</h1>
       <div>
         <form action="?" onSubmit={onSubmit}>
