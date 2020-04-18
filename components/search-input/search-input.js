@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { grey } from '../../helpers/tokens'
+import { grey, lightGrey } from '../../helpers/tokens'
 
 const SearchInput = styled.input`
   border-radius: 0;
@@ -9,7 +9,12 @@ const SearchInput = styled.input`
   font-size: 1.5rem;
   font-style: italic;
   font-weight: 700;
+  outline: 0;
   width: 100%;
+
+  &:placeholder {
+    color: ${lightGrey};
+  }
 `
 
 export default SearchInput

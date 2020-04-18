@@ -5,7 +5,7 @@ import Grid from '../components/grid/grid'
 import GridHeader from '../components/grid/grid-header'
 import AppTitle from '../components/app-title/app-title'
 
-export default class AppWithGlobalStyles extends App {
+export default class MuviApp extends App {
   render() {
     const { Component, pageProps } = this.props
 

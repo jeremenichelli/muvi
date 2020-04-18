@@ -8,7 +8,6 @@ const Anchor = styled.a`
   font-size: 2rem;
   font-weight: 700;
   font-style: italic;
-  margin: 1rem 0;
   text-decoration: none;
 
   &:hover {
