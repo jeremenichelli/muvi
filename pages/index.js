@@ -1,24 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import unfetch from 'isomorphic-unfetch'
 import Router from 'next/router'
-import Link from 'next/link'
 import Head from 'next/head'
 import GridMain from '../components/grid/grid-main'
 import GridAside from '../components/grid/grid-aside'
+import SearchButton from '../components/search-button/search-button'
+import SearchInput from '../components/search-input/search-input'
+import MainTitle from '../components/main-title/main-title'
+import SearchResultList from '../components/search-result-list/search-result-list'
+import SearchNavigation from '../components/search-navigation/search-navigation'
+
+const onSubmit = function (evt) {
+  evt.preventDefault()
+  const formData = new FormData(evt.target)
+  const searchQuery = formData.get('search')
+
+  Router.push(`/?search=${searchQuery}`)
+}
 
 const Index = (props) => {
-  const { prevPage, nextPage, currentSearch, error } = props
+  const { pageResults, prevPage, nextPage, currentSearch, error } = props
   const [searchQuery, setSearchQuery] = useState('')
+  const hasResults = pageResults && pageResults.length
 
-  const onSubmit = (evt) => {
-    evt.preventDefault()
-    const formData = new FormData(evt.target)
-    const searchQuery = formData.get('search')
-
-    Router.push(`/?search=${searchQuery}`)
-  }
-
-  const hasResults = props.pageResults && props.pageResults.length
+  useEffect(() => {
+    setSearchQuery(currentSearch)
+  }, [currentSearch])
 
   return (
     <>
@@ -27,40 +34,36 @@ const Index = (props) => {
       </Head>
       <GridAside>
         <form action="?" onSubmit={onSubmit}>
-          <input
+          <SearchInput
             name="search"
             value={searchQuery}
+            placeholder="Insert movie title"
             onChange={(evt) => setSearchQuery(evt.target.value)}
           />
-          <button type="submit">Search</button>
+          <SearchButton disabled={!searchQuery} type="submit">
+            Search
+          </SearchButton>
         </form>
-        {prevPage && (
-          <Link
-            href={`/?search=${currentSearch}&page=${prevPage}`}
-          >{`${prevPage}`}</Link>
-        )}
-        {nextPage && (
-          <Link
-            href={`/?search=${currentSearch}&page=${nextPage}`}
-          >{`${nextPage}`}</Link>
-        )}
       </GridAside>
       <GridMain>
-        {error && <p>{error}</p>}
-        {hasResults && (
-          <ul>
-            {props.pageResults.map((result) => (
-              <li key={result.id}>
-                <Link
-                  key={result.id}
-                  href={`/movie/[id]`}
-                  as={`/movie/${result.id}`}
-                >
-                  {`${result.title} (${result.year})`}
-                </Link>
-              </li>
-            ))}
-          </ul>
+        {error && (
+          <MainTitle highlight={`«${currentSearch}»`}>
+            No results found for
+          </MainTitle>
+        )}
+        {currentSearch && hasResults && (
+          <MainTitle highlight={`«${currentSearch}»`}>Results for</MainTitle>
+        )}
+        {hasResults && <SearchResultList items={pageResults} />}
+        {prevPage && (
+          <SearchNavigation
+            href={`/?search=${currentSearch}&page=${prevPage}`}
+          >{`« Page ${prevPage}`}</SearchNavigation>
+        )}
+        {nextPage && (
+          <SearchNavigation
+            href={`/?search=${currentSearch}&page=${nextPage}`}
+          >{`Page ${nextPage} »`}</SearchNavigation>
         )}
       </GridMain>
     </>
@@ -71,19 +74,18 @@ const RESULTS_PER_PAGE = 10
 
 Index.getInitialProps = async (context) => {
   const { query } = context
+  const currentSearch = query.search
 
-  if (!query.search) {
-    return {}
-  }
+  if (!currentSearch) return {}
 
   const currentPage = query.page ? +query.page : 1
-  const searchUrl = `//www.omdbapi.com/?apikey=${process.env.API_KEY}&s=${query.search}&page=${currentPage}`
+  const searchUrl = `//www.omdbapi.com/?apikey=${process.env.API_KEY}&s=${currentSearch}&page=${currentPage}`
 
   const response = await unfetch(searchUrl)
   const results = await response.json()
 
   if (results.Error) {
-    return { error: `No results found for ${query.search}` }
+    return { error: `No results found for ${currentSearch}`, currentSearch }
   }
 
   const pageResults = results.Search.map((item) => ({
@@ -98,7 +100,7 @@ Index.getInitialProps = async (context) => {
   return {
     pageResults,
     totalResults: results.totalResults,
-    currentSearch: query.search,
+    currentSearch,
     currentPage,
     nextPage: hasNextPage ? currentPage + 1 : null,
     prevPage: hasPrevPage ? null : currentPage - 1

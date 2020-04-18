@@ -2,45 +2,64 @@ import React from 'react'
 import unfetch from 'isomorphic-unfetch'
 import Head from 'next/head'
 import GridMain from '../../components/grid/grid-main'
+import MainTitle from '../../components/main-title/main-title'
+import styled from 'styled-components'
+import { black, grey } from '../../helpers/tokens'
+import GridAside from '../../components/grid/grid-aside'
+import BackNavigation from '../../components/back-navigation/back-navigation'
+
+const DataContent = styled.span`
+  font-size: 2rem;
+  color: ${grey};
+`
+
+const DataLabel = styled.span`
+  font-size: 2rem;
+  font-weight: 700;
+  color: ${black};
+`
+
+const DataParagraph = styled.p`
+  max-width: 70ch;
+`
+
+const Data = ({ label, content }) => (
+  <DataParagraph>
+    {label && <DataLabel>{label} </DataLabel>}
+    <DataContent>{content}</DataContent>
+  </DataParagraph>
+)
 
 const Movie = (props) => {
   const { data, error } = props
 
-  if (error && error === ERROR_NOT_FOUND) {
-    return (
-      <main>
-        <Head>
-          <title>muvi - Not Found</title>
-        </Head>
-        <h1>Movie not found</h1>
-      </main>
-    )
-  }
-
   return (
     <>
       <Head>
-        <title>{`muvi - ${data.title} (${data.year})`}</title>
+        <title>
+          {error
+            ? `muvi - Movie not found`
+            : `muvi - ${data.title} (${data.year})`}
+        </title>
       </Head>
+      <GridAside>
+        <BackNavigation />
+      </GridAside>
       <GridMain>
-        <h1>{`${data.title} (${data.year})`}</h1>
-        <p>{data.plot}</p>
-        <p>
-          <strong>Duration</strong> {data.duration}
-        </p>
-        <p>
-          <strong>Director</strong> {data.director}
-        </p>
-        <p>
-          <strong>Actors</strong> {data.actors}
-        </p>
-        <ul>
-          {data.ratings.map((rating, index) => (
-            <li key={index}>
-              <strong>{rating.source}</strong> {rating.value}
-            </li>
-          ))}
-        </ul>
+        {error ? (
+          <MainTitle>muvi - Movie not found</MainTitle>
+        ) : (
+          <>
+            <MainTitle highlight={`(${data.year})`}>{data.title}</MainTitle>
+            <Data content={data.plot} />
+            <Data label="Duration" content={data.duration} />
+            <Data label="Director" content={data.director} />
+            <Data label="Actors" content={data.actors} />
+            {data.ratings.map((rating, index) => (
+              <Data key={index} label={rating.source} content={rating.value} />
+            ))}
+          </>
+        )}
       </GridMain>
     </>
   )

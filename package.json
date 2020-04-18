@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "BSD-2",
   "scripts": {
-    "dev": "next",
+    "dev": "NODE_ENV=development next",
     "build": "next build",
     "start": "NODE_ENV=production next start"
   },
