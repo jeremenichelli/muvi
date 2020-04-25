@@ -31,7 +31,7 @@ const Data = ({ label, content }) => (
 )
 
 const Movie = (props) => {
-  const { data, error } = props
+  const { data, error, referrer } = props
 
   return (
     <>
@@ -43,7 +43,7 @@ const Movie = (props) => {
         </title>
       </Head>
       <GridAside>
-        <BackNavigation />
+        <BackNavigation referrer={referrer} />
       </GridAside>
       <GridMain>
         {error ? (
@@ -68,7 +68,13 @@ const Movie = (props) => {
 const ERROR_NOT_FOUND = 404
 
 Movie.getInitialProps = async (context) => {
-  const { query } = context
+  const { query, req } = context
+
+  let referrer
+
+  if (req) {
+    referrer = req.headers.referer
+  }
 
   const movieUrl = `//www.omdbapi.com/?apikey=${process.env.API_KEY}&i=${query.id}`
 
@@ -91,7 +97,7 @@ Movie.getInitialProps = async (context) => {
     ratings: result.Ratings.map(processRatings)
   }
 
-  return { data }
+  return { data, referrer }
 }
 
 function processRatings(entry) {
