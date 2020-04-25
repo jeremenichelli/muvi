@@ -78,7 +78,7 @@ Index.getInitialProps = async (context) => {
   if (!currentSearch) return {}
 
   const currentPage = query.page ? +query.page : 1
-  const searchUrl = `//www.omdbapi.com/?apikey=${process.env.API_KEY}&s=${currentSearch}&page=${currentPage}`
+  const searchUrl = `//www.omdbapi.com/?apikey=${process.env.API_KEY}&s=${currentSearch}&page=${currentPage}&type=movie`
 
   const response = await unfetch(searchUrl)
   const results = await response.json()
