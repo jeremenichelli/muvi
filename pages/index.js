@@ -20,7 +20,7 @@ const onSubmit = function (evt) {
 
 const Index = (props) => {
   const { pageResults, prevPage, nextPage, currentSearch, error } = props
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState(currentSearch)
   const hasResults = pageResults && pageResults.length
 
   useEffect(() => {
