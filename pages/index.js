@@ -39,10 +39,9 @@ const Index = (props) => {
             value={searchQuery}
             placeholder="Insert movie title"
             onChange={(evt) => setSearchQuery(evt.target.value)}
+            required
           />
-          <SearchButton disabled={!searchQuery} type="submit">
-            Search
-          </SearchButton>
+          <SearchButton type="submit">Search</SearchButton>
         </form>
       </GridAside>
       <GridMain>
