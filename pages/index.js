@@ -14,8 +14,9 @@ const onSubmit = function (evt) {
   evt.preventDefault()
   const formData = new FormData(evt.target)
   const searchQuery = formData.get('search')
+  const url = `/?search=${encodeURIComponent(searchQuery)}`
 
-  Router.push(`/?search=${searchQuery}`)
+  Router.push(url)
 }
 
 const Index = (props) => {
