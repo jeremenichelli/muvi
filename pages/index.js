@@ -36,11 +36,12 @@ const Index = (props) => {
       <GridAside>
         <form action="?" onSubmit={onSubmit}>
           <SearchInput
+            autoComplete="off"
             name="search"
-            value={searchQuery}
-            placeholder="Insert movie title"
             onChange={(evt) => setSearchQuery(evt.target.value)}
+            placeholder="Insert movie title"
             required
+            value={searchQuery}
           />
           <SearchButton type="submit">Search</SearchButton>
         </form>
