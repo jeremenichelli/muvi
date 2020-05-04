@@ -14,7 +14,7 @@ const SearchInput = styled.input`
   padding: 0;
   width: 100%;
 
-  &:placeholder {
+  &::placeholder {
     color: ${lightGrey};
   }
 `

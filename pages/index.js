@@ -10,7 +10,7 @@ import MainTitle from '../components/main-title/main-title'
 import SearchResultList from '../components/search-result-list/search-result-list'
 import SearchNavigation from '../components/search-navigation/search-navigation'
 
-const onSubmit = function (evt) {
+function onSubmit(evt) {
   evt.preventDefault()
   const formData = new FormData(evt.target)
   const searchQuery = formData.get('search')
@@ -96,15 +96,13 @@ Index.getInitialProps = async (context) => {
   }))
 
   const hasNextPage = RESULTS_PER_PAGE * currentPage < results.totalResults
-  const hasPrevPage = currentPage < 2
+  const hasPrevPage = currentPage > 1
 
   return {
     pageResults,
-    totalResults: results.totalResults,
     currentSearch,
-    currentPage,
     nextPage: hasNextPage ? currentPage + 1 : null,
-    prevPage: hasPrevPage ? null : currentPage - 1
+    prevPage: hasPrevPage ? currentPage - 1 : null
   }
 }
 
