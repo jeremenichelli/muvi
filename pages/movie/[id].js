@@ -75,7 +75,7 @@ Movie.getInitialProps = async (context) => {
     referrer = req.headers.referer
   }
 
-  const movieUrl = `//www.omdbapi.com/?apikey=${process.env.API_KEY}&i=${query.id}`
+  const movieUrl = `https://www.omdbapi.com/?apikey=${process.env.API_KEY}&i=${query.id}`
 
   const response = await fetch(movieUrl)
   const result = await response.json()
