@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import unfetch from 'isomorphic-unfetch'
 import Router from 'next/router'
 import Head from 'next/head'
 import GridMain from '../components/grid/grid-main'
@@ -80,9 +79,9 @@ Index.getInitialProps = async (context) => {
   if (!currentSearch) return {}
 
   const currentPage = query.page ? +query.page : 1
-  const searchUrl = `//www.omdbapi.com/?apikey=${process.env.API_KEY}&s=${currentSearch}&page=${currentPage}&type=movie`
+  const searchUrl = `https://www.omdbapi.com/?apikey=${process.env.API_KEY}&s=${currentSearch}&page=${currentPage}&type=movie`
 
-  const response = await unfetch(searchUrl)
+  const response = await fetch(searchUrl)
   const results = await response.json()
 
   if (results.Error) {

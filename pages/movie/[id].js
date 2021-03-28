@@ -1,5 +1,4 @@
 import React from 'react'
-import unfetch from 'isomorphic-unfetch'
 import Head from 'next/head'
 import GridMain from '../../components/grid/grid-main'
 import MainTitle from '../../components/main-title/main-title'
@@ -76,9 +75,9 @@ Movie.getInitialProps = async (context) => {
     referrer = req.headers.referer
   }
 
-  const movieUrl = `//www.omdbapi.com/?apikey=${process.env.API_KEY}&i=${query.id}`
+  const movieUrl = `https://www.omdbapi.com/?apikey=${process.env.API_KEY}&i=${query.id}`
 
-  const response = await unfetch(movieUrl)
+  const response = await fetch(movieUrl)
   const result = await response.json()
 
   if (result.Error) {
